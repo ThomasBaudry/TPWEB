@@ -1,0 +1,40 @@
+
+<!-- saved from url=(0090)https://rdl.moodle.decclic.qc.ca/pluginfile.php/109283/mod_resource/content/0/Index.cshtml -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>@using GestionCegepWeb.Models
+@*Si erreur du côté serveur... affichage du message d'erreur...*@
+@if (ViewBag.MessageErreur != null)
+{
+    <br>
+    <h2 class="alert-danger">@ViewBag.MessageErreur</h2>
+}
+else
+{
+    @*Affichage de la liste des cégeps...*@
+    <br>
+    <h3>Liste des cégep(s) (@ViewBag.ListeCegeps.Length Cégep(s)) :</h3>
+    <br>
+    
+        @foreach (CegepDTO cegep in ViewBag.ListeCegeps)
+        {
+            
+        }
+    <table>
+        <tbody><tr>
+            <th>Nom</th>
+            <th>Adresse</th>
+            <th>Ville</th>
+            <th>Province</th>
+            <th>Code Postal</th>
+            <th>Téléphone</th>
+            <th>Courriel</th>
+        </tr><tr>
+                <td>@cegep.Nom</td>
+                <td>@cegep.Adresse</td>
+                <td>@cegep.Ville</td>
+                <td>@cegep.Province</td>
+                <td>@cegep.CodePostal</td>
+                <td>@cegep.Telephone</td>
+                <td>@cegep.Courriel</td>
+            </tr></tbody></table>
+}
+</body></html>
