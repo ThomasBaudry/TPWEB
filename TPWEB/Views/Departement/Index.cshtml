@@ -1,0 +1,45 @@
+﻿@using GestionCegepWeb.Logics.Controleurs
+@using GestionCegepWeb.Models
+@*Si erreur du côté serveur... affichage du message d'erreur...*@
+<h3>Sélectionner un Cégep</h3>
+
+
+
+
+@if (ViewBag.MessageErreur != null)
+{
+    <br />
+    <h2 class="alert-danger">@ViewBag.MessageErreur</h2>
+}
+else
+{
+    ViewBag.ListeCegeps = CegepControleur.Instance.ObtenirListeCegep(); 
+    <form asp-controller="Departement" asp-action="Index" method="get">
+        <select name="nomCegep" onchange="submit();">
+            <option>selectionné</option>
+            @foreach(CegepDTO cegep in ViewBag.ListeCegeps)
+                {
+                    <option>@cegep.Nom</option>
+                }
+        </select>
+    </form>
+    @*Affichage de la liste des cégeps...*@
+    <br />
+    <h3>Liste des département(s) (@ViewBag.ListeDepartement.Length Département(s)) :</h3>
+    <br />
+    <table>
+        <tr>
+            <th>Numéro</th>
+            <th>Nom</th>
+            <th>Description</th>
+        </tr>
+        @foreach (DepartementDTO dep in ViewBag.ListeDepartement)
+        {
+            <tr>
+                <td>@dep.No</td>
+                <td>@dep.Nom</td>
+                <td>@dep.Description</td>
+            </tr>
+        }
+    </table>
+}

@@ -1,0 +1,76 @@
+﻿@using GestionCegepWeb.Logics.Controleurs
+@using GestionCegepWeb.Models
+@*Si erreur du côté serveur... affichage du message d'erreur...*@
+<h3>Sélectionner un Cégep</h3>
+
+
+
+
+@if (ViewBag.MessageErreur != null)
+{
+    <br />
+    <h2 class="alert-danger">@ViewBag.MessageErreur</h2>
+}
+else
+{
+    ViewBag.ListeCegeps = CegepControleur.Instance.ObtenirListeCegep(); 
+    ViewBag.ListeDepartements = CegepControleur.Instance.ObtenirListeDepartement(ViewBag.NomCegep);
+    <form asp-controller="Enseignant" asp-action="Index" method="get">
+        <select name="nomCegep" onchange="submit();">
+            @foreach(CegepDTO cegep in ViewBag.ListeCegeps)
+                {
+                    if(cegep.Nom == ViewBag.NomCegep)
+                    {
+                        <option selected>@cegep.Nom</option>
+                    }else{
+                        <option>@cegep.Nom</option>
+                    }
+                    
+                }
+        </select>
+     
+        <select name="nomDepartement" onchange="submit();">
+            @foreach(DepartementDTO departement in ViewBag.ListeDepartements)
+                {
+                    if(departement.Nom == ViewBag.NomDepartement)
+                    {
+                        <option selected>@departement.Nom</option>
+                    }else{
+                        <option>@departement.Nom</option>
+                    }
+                }
+        </select>
+    </form>
+    @*Affichage de la liste des cégeps...*@
+    <br />
+    <h3>Liste des enseignant(s) (@ViewBag.ListeEnseignants.Length Enseignant(s)) :</h3>
+    <br />
+    <table>
+        <tr>
+            <th>Numéro</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Adresse</th>
+            <th>Ville</th>
+            <th>Province</th>
+            <th>CodePostal</th>
+            <th>Telephone</th>
+            <th>Courriel</th>
+
+        </tr>
+        @foreach (EnseignantDTO ens in ViewBag.ListeEnseignants)
+        {
+            <tr>
+                <td>@ens.NoEmploye</td>
+                <td>@ens.Nom</td>
+                <td>@ens.Prenom</td>
+                <td>@ens.Adresse</td>
+                <td>@ens.Ville</td>
+                <td>@ens.Province</td>
+                <td>@ens.CodePostal<td>
+                <td>@ens.Telephone</td>
+                <td>@ens.Courriel</td>
+            </tr>
+        }
+    </table>
+}
