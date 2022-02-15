@@ -1,4 +1,5 @@
 ﻿using GestionCegepWeb.Logics.Controleurs;
+using GestionCegepWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -18,6 +19,7 @@ namespace GestionCegepWeb.Controllers
                     nomCegep = CegepControleur.Instance.ObtenirListeCegep()[0].Nom;
                 }
                 //Préparation des données pour la vue...
+                ViewBag.NomCegep = nomCegep;
                 ViewBag.ListeDepartement = CegepControleur.Instance.ObtenirListeDepartement(nomCegep).ToArray();
             }
             catch (Exception e)
@@ -27,6 +29,28 @@ namespace GestionCegepWeb.Controllers
 
             //Retour de la vue...
             return View();
+        }
+        [Route("/Cegep/AjouterDepartement")]
+        [HttpPost]
+        public IActionResult AjouterDepartement([FromForm] DepartementDTO depDTO, [FromQuery] string nomCegep)
+        {
+            try
+            {
+                if (nomCegep == null)
+                {
+                    nomCegep = CegepControleur.Instance.ObtenirListeCegep()[0].Nom;
+                }
+                ViewBag.NomCegep = nomCegep;
+                CegepControleur.Instance.AjouterDepartement(nomCegep, depDTO);
+            }
+            catch (Exception e)
+            {
+                //Mettre cette ligne en commentaire avant de lancer les tests fonctionnels
+                TempData["MessageErreur"] = e.Message;
+            }
+
+            //Lancement de l'action Index...
+            return RedirectToAction("Index", "Departement", depDTO);
         }
     }
 }

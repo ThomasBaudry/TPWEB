@@ -1,5 +1,6 @@
 ﻿@using GestionCegepWeb.Logics.Controleurs
 @using GestionCegepWeb.Models
+@model DepartementDTO
 @*Si erreur du côté serveur... affichage du message d'erreur...*@
 <h3>Sélectionner un Cégep</h3>
 
@@ -16,10 +17,14 @@ else
     ViewBag.ListeCegeps = CegepControleur.Instance.ObtenirListeCegep(); 
     <form asp-controller="Departement" asp-action="Index" method="get">
         <select name="nomCegep" onchange="submit();">
-            <option>selectionné</option>
             @foreach(CegepDTO cegep in ViewBag.ListeCegeps)
                 {
-                    <option>@cegep.Nom</option>
+                    if(cegep.Nom == ViewBag.NomCegep)
+                    {
+                        <option selected>@cegep.Nom</option>
+                    }else{
+                        <option>@cegep.Nom</option>
+                    }
                 }
         </select>
     </form>
@@ -42,4 +47,39 @@ else
             </tr>
         }
     </table>
+
+    <br />
+    <b>Ajouter un département : </b>
+    <br />
+    <br />
+    <form asp-controller="Departement" asp-action="AjouterDepartement" method="post">
+        <table>
+            <tr>
+                <td>
+                    <label asp-for="No"></label>
+                </td>
+                <td>
+                    <input asp-for="No" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Nom"></label>
+                </td>
+                <td>
+                    <input asp-for="Nom" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label asp-for="Description"></label>
+                </td>
+                <td>
+                    <input asp-for="Description" />
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Ajouter" />
+    </form>
+    <br/>
 }
