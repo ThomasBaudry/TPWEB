@@ -1,5 +1,4 @@
-﻿@using GestionCegepWeb.Logics.Controleurs
-@using GestionCegepWeb.Models
+﻿@using GestionCegepWeb.Models
 @model EnseignantDTO
 @*Si erreur du côté serveur... affichage du message d'erreur...*@
 <h3>Sélectionner un Cégep</h3>
@@ -14,8 +13,6 @@
 }
 else
 {
-    ViewBag.ListeCegeps = CegepControleur.Instance.ObtenirListeCegep(); 
-    ViewBag.ListeDepartements = CegepControleur.Instance.ObtenirListeDepartement(ViewBag.NomCegep);
     <form asp-controller="Enseignant" asp-action="Index" method="get">
         <select name="nomCegep" onchange="submit();">
             @foreach(CegepDTO cegep in ViewBag.ListeCegeps)
@@ -72,13 +69,13 @@ else
                     <td>@ens.CodePostal<td>
                     <td>@ens.Telephone</td>
                     <td>@ens.Courriel</td>
-                    <td><input value="Modifier" onclick="document.getElementById('nomEnseignant').value ='@ens.Nom'; this.form.action='/Enseignant/FormulaireModifierEnseignant'; this.form.method='get'; submit();" type="button" /></td>
+                    <td><input value="Modifier" onclick="document.getElementById('noEnseignant').value ='@ens.NoEmploye'; this.form.action='/Enseignant/FormulaireModifierEnseignant'; this.form.method='get'; submit();" type="button" /></td>
 
                 </tr>
             }
         </table>
-        <input id="nomEnseignant" name="nomEnseignant" type="hidden"/>
-        <input id="nomDepartement" name="nomDepartement" type="hidden" value="@ViewBag.NomDepartement/>
+        <input id="noEnseignant" name="noEnseignant" type="hidden"/>
+        <input id="nomDepartement" name="nomDepartement" type="hidden" value="@ViewBag.NomDepartement"/>
         <input id="nomCegep" name="nomCegep" type="hidden" value="@ViewBag.NomCegep"/>
     </form>
      <br />

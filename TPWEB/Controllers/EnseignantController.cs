@@ -31,9 +31,11 @@ namespace TPWEB.Controllers
                     nomDepartement = CegepControleur.Instance.ObtenirListeDepartement(nomCegep)[0].Nom;
                 }
                 ViewBag.NomCegep = nomCegep;
-                ViewBag.NowDepartement = nomDepartement;
+                ViewBag.NomDepartement = nomDepartement;
                 //Préparation des données pour la vue...
                 ViewBag.ListeEnseignants = CegepControleur.Instance.ObtenirListeEnseignant(nomCegep, nomDepartement).ToArray();
+                ViewBag.ListeCegeps = CegepControleur.Instance.ObtenirListeCegep();
+                ViewBag.ListeDepartements = CegepControleur.Instance.ObtenirListeDepartement(ViewBag.NomCegep);
             }
             catch (Exception e)
             {
