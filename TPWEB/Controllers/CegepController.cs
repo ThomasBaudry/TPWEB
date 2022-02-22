@@ -69,5 +69,42 @@ namespace GestionCegepWeb.Controllers
             //Lancement de l'action Index...
             return RedirectToAction("Index", "Cegep", cegepDTO);
         }
+        [Route("/Cegep/FormulaireModifierCegep")]
+        [HttpGet]
+        public IActionResult FormulaireModifierCegep([FromQuery] string nomCegep)
+        {
+            try
+            {
+                CegepDTO cegep = CegepControleur.Instance.ObtenirCegep(nomCegep);
+                return View(cegep);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        /// <summary>
+        /// Action ModifierCegep.
+        /// Permet de modifier un Cégep.
+        /// </summary>
+        /// <param name="cegepDTO">Le Cégep a modifier.</param>
+        /// <returns>ActionResult</returns>
+        [Route("/Cegep/ModifierCegep")]
+        [HttpPost]
+        public IActionResult ModifierCegep([FromForm] CegepDTO cegepDTO)
+        {
+            try
+            {
+                CegepControleur.Instance.ModifierCegep(cegepDTO);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("FormulaireModifierCegep", "Cegep", new { nomCegep = cegepDTO.Nom });
+            }
+            //Lancement de l'action Index...
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -1,4 +1,4 @@
-@using GestionCegepWeb.Models
+﻿@using GestionCegepWeb.Models
 @model CegepDTO;
 @*Si erreur du côté serveur... affichage du message d'erreur...*@
 @if (ViewBag.MessageErreur != null)
@@ -8,50 +8,17 @@
 }
 else
 {
-    @*Affichage de la liste des cégeps...*@
     <br />
-    <h3>Liste des cégep(s) (@ViewBag.ListeCegeps.Length Cégep(s)) :</h3>
+    <h3>Modifier un Cégep : </h3>
     <br />
-   <form asp-controller="" asp-action="" method="post">
-        <table>
-            <tr>
-                <th>Nom</th>
-                <th>Adresse</th>
-                <th>Ville</th>
-                <th>Province</th>
-                <th>Code Postal</th>
-                <th>Téléphone</th>
-                <th>Courriel</th>
-                <th></th>
-            </tr>
-            @foreach (CegepDTO cegep in ViewBag.ListeCegeps)
-            {
-                <tr>
-                    <td>@cegep.Nom</td>
-                    <td>@cegep.Adresse</td>
-                    <td>@cegep.Ville</td>
-                    <td>@cegep.Province</td>
-                    <td>@cegep.CodePostal</td>
-                    <td>@cegep.Telephone</td>
-                    <td>@cegep.Courriel</td>
-                    <td><input value="Modifier" onclick="document.getElementById('nomCegep').value ='@cegep.Nom'; this.form.action='/Cegep/FormulaireModifierCegep'; this.form.method='get'; submit();" type="button" /></td>
-                </tr>
-            }
-        </table>
-        <input id="nomCegep" name="nomCegep" type="hidden"/>
-    </form>
-    <br />
-    <b>Ajouter un cégep : </b>
-    <br />
-    <br />
-    <form asp-controller="Cegep" asp-action="AjouterCegep" method="post">
+    <form asp-controller="Cegep" asp-action="ModifierCegep" method="post">
         <table>
             <tr>
                 <td>
                     <label asp-for="Nom"></label>
                 </td>
                 <td>
-                    <input asp-for="Nom" />
+                    <input asp-for="Nom" class="inputreadonly" readonly />
                 </td>
             </tr>
             <tr>
@@ -102,8 +69,14 @@ else
                     <input asp-for="Courriel" />
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Modifier" />
+                </td>
+                <td>
+                    <input type="button" value="Annuler" onclick="history.back();" />
+                </td>
+            </tr>
         </table>
-        <input type="submit" value="Ajouter" />
     </form>
-    <br/>
 }

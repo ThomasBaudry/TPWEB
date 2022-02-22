@@ -32,6 +32,7 @@ else
     <br />
     <h3>Liste des département(s) (@ViewBag.ListeDepartement.Length Département(s)) :</h3>
     <br />
+    <form asp-controller="" asp-action="" method="post">
     <table>
         <tr>
             <th>Numéro</th>
@@ -44,15 +45,19 @@ else
                 <td>@dep.No</td>
                 <td>@dep.Nom</td>
                 <td>@dep.Description</td>
+                <td><input value="Modifier" onclick="document.getElementById('nomDepartement').value ='@dep.Nom';document.getElementById('nomCegep').value ='@ViewBag.nomCegep'; this.form.action='/Departement/FormulaireModifierDepartement'; this.form.method='get'; submit();" type="button" /></td>
             </tr>
         }
     </table>
-
+    <input id="nomDepartement" name="nomDepartement" type="hidden"/>
+    <input id="nomCegep" name="nomCegep" type="hidden"/>
+</form>
     <br />
     <b>Ajouter un département : </b>
     <br />
     <br />
     <form asp-controller="Departement" asp-action="AjouterDepartement" method="post">
+        <input type="hidden" name="nomCegep" value="@ViewBag.NomCegep"/>
         <table>
             <tr>
                 <td>
