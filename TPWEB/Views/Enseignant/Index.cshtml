@@ -55,7 +55,9 @@ else
                 <th>CodePostal</th>
                 <th>Telephone</th>
                 <th>Courriel</th>
-
+                @if(ViewBag.ListeEnseignants.Length > 0){
+                    <th><input value="Vider la Liste" onclick="if(confirm('Voulez-vous vraiment vider la liste?')==true){this.form.action='/Enseignant/ViderListeEnseignant'; this.form.method='post'; submit();}" type="button" /></th>
+                }
             </tr>
             @foreach (EnseignantDTO ens in ViewBag.ListeEnseignants)
             {
@@ -70,7 +72,7 @@ else
                     <td>@ens.Telephone</td>
                     <td>@ens.Courriel</td>
                     <td><input value="Modifier" onclick="document.getElementById('noEnseignant').value ='@ens.NoEmploye'; this.form.action='/Enseignant/FormulaireModifierEnseignant'; this.form.method='get'; submit();" type="button" /></td>
-
+                    <td><input value="Supprimer" onclick="document.getElementById('noEnseignant').value ='@ens.NoEmploye'; if(confirm('Voulez-vous vraiment supprimer le Enseignant?')==true){this.form.action='/Enseignant/SupprimerEnseignant'; this.form.method='post'; submit();}" type="button" /></td>
                 </tr>
             }
         </table>

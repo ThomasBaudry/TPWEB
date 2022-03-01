@@ -12,7 +12,7 @@ else
     <br />
     <h3>Liste des cégep(s) (@ViewBag.ListeCegeps.Length Cégep(s)) :</h3>
     <br />
-   <form asp-controller="" asp-action="" method="post">
+    <form asp-controller="" asp-action="" method="post">
         <table>
             <tr>
                 <th>Nom</th>
@@ -22,7 +22,10 @@ else
                 <th>Code Postal</th>
                 <th>Téléphone</th>
                 <th>Courriel</th>
-                <th></th>
+                @if(ViewBag.ListeCegeps.Length > 0)
+                {
+                    <th><input value="Vider la Liste" onclick="if(confirm('Voulez-vous vraiment vider la liste?')==true){this.form.action='/Cegep/ViderListeCegep'; this.form.method='post'; submit();}" type="button" /></th>
+                }
             </tr>
             @foreach (CegepDTO cegep in ViewBag.ListeCegeps)
             {
@@ -35,6 +38,7 @@ else
                     <td>@cegep.Telephone</td>
                     <td>@cegep.Courriel</td>
                     <td><input value="Modifier" onclick="document.getElementById('nomCegep').value ='@cegep.Nom'; this.form.action='/Cegep/FormulaireModifierCegep'; this.form.method='get'; submit();" type="button" /></td>
+                    <td><input value="Supprimer" onclick="document.getElementById('nomCegep').value ='@cegep.Nom';if(confirm('Voulez-vous vraiment supprimer le Cégep?')==true){this.form.action='/Cegep/SupprimerCegep'; this.form.method='post'; submit();}" type="button" /></td>
                 </tr>
             }
         </table>

@@ -90,5 +90,35 @@ namespace GestionCegepWeb.Controllers
             //Lancement de l'action Index...
             return RedirectToAction("Index");
         }
+        [Route("/Departement/SupprimerDepartement")]
+        [HttpPost]
+        public IActionResult SupprimerDepartement([FromForm] string nomCegep, [FromForm] string nomDepartement)
+        {
+            try
+            {
+                CegepControleur.Instance.SupprimerDepartement(nomCegep, nomDepartement);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index");
+            }
+            //Lancement de l'action Index...
+            return RedirectToAction("Index");
+        }
+        [Route("/Departement/ViderListeDepartement")]
+        [HttpPost]
+        public IActionResult ViderListeDepartement([FromForm] string nomCegep)
+        {
+            try
+            {
+                CegepControleur.Instance.ViderListeDepartement(nomCegep);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index");
+            }
+            //Lancement de l'action Index...
+            return RedirectToAction("Index");
+        }
     }
 }

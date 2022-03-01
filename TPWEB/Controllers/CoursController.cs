@@ -5,10 +5,10 @@ using System;
 
 namespace TPWEB.Controllers
 {
-    public class EnseignantController : Controller
+    public class CoursController : Controller
     {
-        [Route("Enseignant")]
-        [Route("Enseignant/Index")]
+        [Route("Cours")]
+        [Route("Cours/Index")]
         [HttpGet]
         public IActionResult Index([FromQuery] string nomCegep, [FromQuery] string nomDepartement)
         {
@@ -19,11 +19,11 @@ namespace TPWEB.Controllers
                     nomCegep = CegepControleur.Instance.ObtenirListeCegep()[0].Nom;
                 }
                 bool ok = false;
-                foreach( DepartementDTO dep in CegepControleur.Instance.ObtenirListeDepartement(nomCegep))
+                foreach (DepartementDTO dep in CegepControleur.Instance.ObtenirListeDepartement(nomCegep))
                 {
-                    if(dep.Nom == nomDepartement)
+                    if (dep.Nom == nomDepartement)
                     {
-                        ok  = true;
+                        ok = true;
                     }
                 }
                 if (nomDepartement == null || ok == false)
@@ -33,7 +33,7 @@ namespace TPWEB.Controllers
                 ViewBag.NomCegep = nomCegep;
                 ViewBag.NomDepartement = nomDepartement;
                 //Préparation des données pour la vue...
-                ViewBag.ListeEnseignants = CegepControleur.Instance.ObtenirListeEnseignant(nomCegep, nomDepartement).ToArray();
+                ViewBag.ListeCours = CegepControleur.Instance.ObtenirListeCours(nomCegep, nomDepartement).ToArray();
                 ViewBag.ListeCegeps = CegepControleur.Instance.ObtenirListeCegep();
                 ViewBag.ListeDepartements = CegepControleur.Instance.ObtenirListeDepartement(ViewBag.NomCegep);
             }
@@ -45,13 +45,13 @@ namespace TPWEB.Controllers
             //Retour de la vue...
             return View();
         }
-        [Route("/Enseignant/AjouterEnseignant")]
+        [Route("/Cours/AjouterCours")]
         [HttpPost]
-        public IActionResult AjouterEnseignant([FromForm] EnseignantDTO  enseignant, [FromForm] string nomCegep, [FromForm] string nomDep)
+        public IActionResult AjouterCours([FromForm] CoursDTO cours, [FromForm] string nomCegep, [FromForm] string nomDep)
         {
             try
             {
-                CegepControleur.Instance.AjouterEnseignant(nomCegep, nomDep, enseignant);
+                CegepControleur.Instance.AjouterCours(nomCegep, nomDep, cours);
             }
             catch (Exception e)
             {
@@ -60,18 +60,18 @@ namespace TPWEB.Controllers
             }
 
             //Lancement de l'action Index...
-            return RedirectToAction("Index", "Enseignant", new{nomCegep = nomCegep, nomDep = nomDep});
+            return RedirectToAction("Index", "Cours", new { nomCegep = nomCegep, nomDep = nomDep });
         }
-        [Route("/Enseignant/FormulaireModifierEnseignant")]
+        [Route("/Cours/FormulaireModifierCours")]
         [HttpGet]
-        public IActionResult FormulaireModifierEnseignant([FromQuery] string nomCegep, [FromQuery] string nomDepartement, [FromQuery] int noEnseignant)
+        public IActionResult FormulaireModifierCours([FromQuery] string nomCegep, [FromQuery] string nomDepartement, [FromQuery] string nomCours)
         {
             try
             {
-                EnseignantDTO enseignant = CegepControleur.Instance.ObtenirEnseignant(nomCegep, nomDepartement, noEnseignant);
+                CoursDTO cours = CegepControleur.Instance.ObtenirCours(nomCegep, nomDepartement, nomCours);
                 ViewBag.nomCegep = nomCegep;
                 ViewBag.nomDepartement = nomDepartement;
-                return View(enseignant);
+                return View(cours);
             }
             catch (Exception e)
             {
@@ -86,28 +86,28 @@ namespace TPWEB.Controllers
         /// </summary>
         /// <param name="cegepDTO">Le Cégep a modifier.</param>
         /// <returns>ActionResult</returns>
-        [Route("/Enseignant/ModifierEnseignant")]
+        [Route("/Cours/ModifierCours")]
         [HttpPost]
-        public IActionResult ModifierEnseignant([FromForm] string nomCegep, [FromForm] string nomDepartement, [FromForm] EnseignantDTO enseignantDTO)
+        public IActionResult ModifierCours([FromForm] string nomCegep, [FromForm] string nomDepartement, [FromForm] CoursDTO coursDTO)
         {
             try
             {
-                CegepControleur.Instance.ModifierEnseignant(nomCegep, nomDepartement, enseignantDTO);
+                CegepControleur.Instance.ModifierCours(nomCegep, nomDepartement, coursDTO);
             }
             catch (Exception e)
             {
-                return RedirectToAction("FormulaireModifierEnseignant", "Enseignant", new { nomEnseignant = enseignantDTO.Nom });
+                return RedirectToAction("FormulaireModifierCours", "Cours", new { nomCours = coursDTO.Nom });
             }
             //Lancement de l'action Index...
             return RedirectToAction("Index");
         }
-        [Route("/Enseignant/SupprimerEnseignant")]
+        [Route("/Cours/SupprimerCours")]
         [HttpPost]
-        public IActionResult SupprimerEnseignant([FromForm] string nomCegep, [FromForm] string nomDepartement, [FromForm] int noEnseignant)
+        public IActionResult SupprimerCours([FromForm] string nomCegep, [FromForm] string nomDepartement, [FromForm] string nomCours)
         {
             try
             {
-                CegepControleur.Instance.SupprimerEnseignant(nomCegep, nomDepartement, noEnseignant);
+                CegepControleur.Instance.SupprimerCours(nomCegep, nomDepartement, nomCours);
             }
             catch (Exception e)
             {
@@ -116,13 +116,13 @@ namespace TPWEB.Controllers
             //Lancement de l'action Index...
             return RedirectToAction("Index");
         }
-        [Route("/Enseignant/ViderListeEnseignant")]
+        [Route("/Cours/ViderListeCours")]
         [HttpPost]
-        public IActionResult ViderListeEnseignant([FromForm] string nomCegep, [FromForm] string nomDepartement)
+        public IActionResult ViderListeCours([FromForm] string nomCegep, [FromForm] string nomDepartement)
         {
             try
             {
-                CegepControleur.Instance.ViderListeEnseignant(nomCegep, nomDepartement);
+                CegepControleur.Instance.ViderListeCours(nomCegep, nomDepartement);
             }
             catch (Exception e)
             {

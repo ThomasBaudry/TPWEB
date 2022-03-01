@@ -106,5 +106,35 @@ namespace GestionCegepWeb.Controllers
             //Lancement de l'action Index...
             return RedirectToAction("Index");
         }
+        [Route("/Cegep/SupprimerCegep")]
+        [HttpPost]
+        public IActionResult SupprimerCegep([FromForm] string nomCegep)
+        {
+            try
+            {
+                CegepControleur.Instance.SupprimerCegep(nomCegep);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index");
+            }
+            //Lancement de l'action Index...
+            return RedirectToAction("Index");
+        }
+        [Route("/Cegep/ViderListeCegep")]
+        [HttpPost]
+        public IActionResult ViderListeCegep()
+        {
+            try
+            {
+                CegepControleur.Instance.ViderListeCegep();
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index");
+            }
+            //Lancement de l'action Index...
+            return RedirectToAction("Index");
+        }
     }
 }
